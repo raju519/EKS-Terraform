@@ -87,7 +87,7 @@ resource "aws_security_group" "devopsshack_node_sg" {
 }
 
 resource "aws_eks_cluster" "devopsshack" {
-  name     = "devopsshack-cluster"
+  name     = "devopsshack-clusterrrrrr"
   role_arn = aws_iam_role.devopsshack_cluster_role.arn
 
   vpc_config {
@@ -111,9 +111,14 @@ resource "aws_eks_node_group" "devopsshack" {
   instance_types = ["t2.medium"]
 
   remote_access {
-    ec2_ssh_key = var.ssh_key_name
+    ec2_ssh_key = aws_key_pair.my_key_pair.key_name
     source_security_group_ids = [aws_security_group.devopsshack_node_sg.id]
   }
+}
+
+resource "aws_key_pair" "my_key_pair" {
+  key_name   = "eks cluster"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC70oQuT8UD5okqEngofacV+OMvk0e3grEVQ74HZLPVfUin9BF9qVFT2CdkxDuWVDN+jaGA/hUDzzy5iVP/8Z/0ldanhxZJlUseLQ57q9D5BP2dhIe2WL63V+q0ZA+OLuWN0Rbq1ehegUUC86HPdUvpsBRQlwW7a3mipWXBcOdGC8aDCRRq6hDWdcjA+oqcE2uEz8Gaz6JXHTLV81a4ldSkSRIst8wpGCCBEYYzKQ3mLDibNOXi780XJlMraDikIWy/9AyH3ck42W6PD7bcylyG6yMk28TmLp3Z9CegwJStiuwCoO5+P8wUiZNkQmdwzs4HnfHexlJ7kKJdEAA39W+7 eks cluster"
 }
 
 resource "aws_iam_role" "devopsshack_cluster_role" {
